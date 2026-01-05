@@ -19,7 +19,7 @@ Basing on the collected data five classification cases were distinguished, that 
 # Variable explanation
 
 | Code | Descriptions |
-| ---- | ------------ |
+| --- | --- |
 | X1	| net profit / total assets
 | X2	| total liabilities / total assets
 X3	working capital / total assets
