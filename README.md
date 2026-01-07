@@ -9,6 +9,24 @@ In emerging markets like Poland, companies often face volatile economic conditio
 
 This project focuses on predicting the likelihood of bankruptcy for Polish companies using historical financial data collected from the Emerging Markets Information Service (EMIS). The dataset includes both bankrupt companies (observed between 2000–2012) and still-operating companies (evaluated between 2007–2013), providing a real-world, imbalanced classification problem. Accurately distinguishing between financially healthy and distressed firms can support proactive risk management and data-driven decision-making in finance and business strategy.
 
+## Project Objectives
+
+The main objectives of this project are:
+
+1. Develop a Predictive Model
+Build a machine learning model that can accurately classify whether a company is likely to go bankrupt based on its financial indicators.
+
+2. Analyze Financial Risk Indicators
+Identify and analyze the most important financial ratios and features that contribute to bankruptcy risk.
+
+3. Handle Real-World Data Challenges
+Address common issues such as class imbalance, missing values, and noisy financial data to improve model robustness.
+
+4. Evaluate Model Performance
+Assess model performance using appropriate metrics (e.g., recall, precision, F1-score, ROC-AUC) with an emphasis on correctly identifying high-risk companies.
+
+5. Support Business and Financial Decision-Making
+Provide insights that can be used by financial institutions, investors, and analysts for credit scoring, investment risk assessment, and early warning systems.
 
 ## Dataset Information
 
