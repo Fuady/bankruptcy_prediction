@@ -1,6 +1,14 @@
 # Bankruptcy Prediction
 
-The dataset is about bankruptcy prediction of Polish companies.The bankrupt companies were analyzed in the period 2000-2012, while the still operating companies were evaluated from 2007 to 2013.
+
+## Problem Description
+
+Corporate bankruptcy poses significant financial risks to stakeholders such as investors, creditors, financial institutions, and regulators. Early identification of companies at risk of bankruptcy is crucial for minimizing financial losses, improving credit decision-making, and ensuring economic stability.
+
+In emerging markets like Poland, companies often face volatile economic conditions, limited access to capital, and higher uncertainty compared to developed markets. These factors make bankruptcy prediction both more challenging and more critical. Traditional financial analysis methods may fail to capture complex, non-linear relationships within financial ratios that signal early financial distress.
+
+This project focuses on predicting the likelihood of bankruptcy for Polish companies using historical financial data collected from the Emerging Markets Information Service (EMIS). The dataset includes both bankrupt companies (observed between 2000–2012) and still-operating companies (evaluated between 2007–2013), providing a real-world, imbalanced classification problem. Accurately distinguishing between financially healthy and distressed firms can support proactive risk management and data-driven decision-making in finance and business strategy.
+
 
 ## Dataset Information
 
@@ -84,3 +92,6 @@ Basing on the collected data five classification cases were distinguished, that 
 | X62	| (short-term liabilities *365) / sales
 | X63	| sales / short-term liabilities
 | X64	| sales / fixed assets
+
+
+## 
