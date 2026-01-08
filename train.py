@@ -251,3 +251,12 @@ def tune_best_model(
     
     return grid.best_estimator_, grid.best_params_, grid.best_score_
 
+best_model_name = result.loc[result["is_best_model"], "model_name"].values[0]
+
+best_estimator, best_params, best_cv_score = tune_best_model(
+    best_model_name,
+    classifiers,
+    X_train,
+    y_train
+)
+
