@@ -30,7 +30,20 @@ col.append('y')
 
 year_1 = arff.loadarff("data/1year.arff")
 df_year_1 = pd.DataFrame(year_1[0])
+
+
+# =========================
+# 2. Preprocessing
+# =========================
+
 df_year_1.columns = col
 df_year_1['y'] = df_year_1['y'].str.decode('utf-8')
+
+df_year_1.replace('?',np.nan,inplace=True)
+
+imp = SimpleImputer(missing_values=np.nan, strategy='mean')
+imp.fit(df_year_1)
+df_imputed_array_1 = imp.transform(df_year_1)
+df_imputed_1 = pd.DataFrame(df_imputed_array_1, columns=df_year_1.columns)
 
 df = pd.read_csv(DATA_PATH)
