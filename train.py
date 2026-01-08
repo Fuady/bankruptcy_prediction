@@ -16,3 +16,12 @@ from lightgbm import LGBMClassifier
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.impute import SimpleImputer
+
+
+# =========================
+# 1. Load data
+# =========================
+DATA_PATH = "data/insurance_claims.csv"   # adjust path if needed
+MODEL_PATH = "models/fraud_model.pkl"
+
+df = pd.read_csv(DATA_PATH)
