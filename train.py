@@ -194,3 +194,31 @@ def process_eval(model_results, overfit_threshold=10):
 
 model_result=modelling(classifiers,X_train,y_train,X_test,y_test)
 result=process_eval(model_result)
+
+from sklearn.model_selection import GridSearchCV
+from sklearn.pipeline import Pipeline
+
+def get_param_grid(model_name):
+    grids = {
+        "LogisticRegression": {
+            "model__C": [0.01, 0.1, 1, 10],
+            "model__solver": ["liblinear"]
+        },
+        "RandomForest": {
+            "model__n_estimators": [100, 300],
+            "model__max_depth": [None, 10, 20],
+            "model__min_samples_split": [2, 5]
+        },
+        "XGBoost": {
+            "model__n_estimators": [100, 300],
+            "model__max_depth": [3, 6],
+            "model__learning_rate": [0.01, 0.1]
+        },
+        "LightGBM": {
+            "model__n_estimators": [100, 300],
+            "model__num_leaves": [31, 63],
+            "model__learning_rate": [0.01, 0.1]
+        }
+    }
+    return grids.get(model_name, {})
+
