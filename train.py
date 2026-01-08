@@ -23,11 +23,6 @@ from sklearn.impute import SimpleImputer
 # =========================
 MODEL_PATH = "models/fraud_model.pkl"
 
-col= []
-for a in range(1,65):
-    col.append('x'+str(a))
-col.append('y')
-
 year_1 = arff.loadarff("data/1year.arff")
 df_year_1 = pd.DataFrame(year_1[0])
 
@@ -35,6 +30,10 @@ df_year_1 = pd.DataFrame(year_1[0])
 # =========================
 # 2. Preprocessing
 # =========================
+col= []
+for a in range(1,65):
+    col.append('x'+str(a))
+col.append('y')
 
 df_year_1.columns = col
 df_year_1['y'] = df_year_1['y'].str.decode('utf-8')
