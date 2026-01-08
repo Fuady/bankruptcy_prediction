@@ -112,4 +112,4 @@ Basing on the collected data five classification cases were distinguished, that 
 | X64	| sales / fixed assets
 
 
-## 
+## Solution Approach
