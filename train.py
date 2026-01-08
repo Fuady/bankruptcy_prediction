@@ -222,3 +222,32 @@ def get_param_grid(model_name):
     }
     return grids.get(model_name, {})
 
+def tune_best_model(
+    best_model_name,
+    classifiers,
+    X_train,
+    y_train,
+    scoring="f1"
+):
+    # Get model
+    model = dict(classifiers)[best_model_name]
+    
+    pipe = Pipeline([
+        ("model", model)
+    ])
+    
+    param_grid = get_param_grid(best_model_name)
+    
+    grid = GridSearchCV(
+        estimator=pipe,
+        param_grid=param_grid,
+        scoring=scoring,
+        cv=10,
+        n_jobs=-1,
+        verbose=1
+    )
+    
+    grid.fit(X_train, y_train)
+    
+    return grid.best_estimator_, grid.best_params_, grid.best_score_
+
