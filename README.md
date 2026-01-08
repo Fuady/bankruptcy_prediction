@@ -113,3 +113,6 @@ Basing on the collected data five classification cases were distinguished, that 
 
 
 ## Solution Approach
+
+
+## Project Structure
