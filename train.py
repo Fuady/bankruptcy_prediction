@@ -45,4 +45,17 @@ imp.fit(df_year_1)
 df_imputed_array_1 = imp.transform(df_year_1)
 df_imputed_1 = pd.DataFrame(df_imputed_array_1, columns=df_year_1.columns)
 
-df = pd.read_csv(DATA_PATH)
+# separating the feature and target columns
+
+# outcome
+y = df_imputed_1['y'].astype('int')
+
+# features
+X = df_imputed_1.drop('y',axis = 1)
+
+# =========================
+# 3. Train-test split
+# =========================
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
+
