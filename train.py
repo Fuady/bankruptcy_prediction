@@ -59,3 +59,62 @@ X = df_imputed_1.drop('y',axis = 1)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
 
+
+# =========================
+# 4. Training Model
+# =========================
+
+classifiers = [
+    ['CatBoostClassifier',CatBoostClassifier(silent=True)],
+    ['LogisticRegression',LogisticRegression(class_weight='balanced',random_state=1)],
+    ['DecisionTree',DecisionTreeClassifier(class_weight='balanced',random_state=1)],
+    ['LightGBM',LGBMClassifier(class_weight='balanced',metric='binary_logloss')],
+    ['SVC', SVC()],
+    ['KNN', KNeighborsClassifier(n_neighbors = 30)],
+    ['GradientBoosting', GradientBoostingClassifier()],
+    ['RandomForest', RandomForestClassifier()],
+    ['XGBoost', XGBClassifier()]]
+
+
+def modelling(classifiers, X_train, y_train, X_test, y_test):
+    """
+    Train multiple classifiers and collect predictions, probabilities, and runtime
+    """
+    
+    model_results = []
+
+    for name, model in classifiers:
+        start_time = time.time()
+        
+        # Train model
+        model.fit(X_train, y_train)
+        
+        runtime = time.time() - start_time
+        
+        # Predictions
+        y_train_pred = model.predict(X_train)
+        y_test_pred = model.predict(X_test)
+        
+        # Probabilities (handle models without predict_proba)
+        if hasattr(model, "predict_proba"):
+            y_train_proba = model.predict_proba(X_train)[:, 1]
+            y_test_proba = model.predict_proba(X_test)[:, 1]
+        elif hasattr(model, "decision_function"):
+            y_train_proba = model.decision_function(X_train)
+            y_test_proba = model.decision_function(X_test)
+        else:
+            y_train_proba = None
+            y_test_proba = None
+        
+        model_results.append({
+            "model_name": name,
+            "runtime": runtime,
+            "y_train": y_train,
+            "y_test": y_test,
+            "y_train_pred": y_train_pred,
+            "y_test_pred": y_test_pred,
+            "y_train_proba": y_train_proba,
+            "y_test_proba": y_test_proba
+        })
+        
+    return model_results
