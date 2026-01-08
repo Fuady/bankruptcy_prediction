@@ -118,3 +118,79 @@ def modelling(classifiers, X_train, y_train, X_test, y_test):
         })
         
     return model_results
+
+def process_eval(model_results, overfit_threshold=10):
+    """
+    Evaluate models and return comparison table
+    """
+    
+    rows = []
+
+    for res in model_results:
+        y_train = res["y_train"]
+        y_test = res["y_test"]
+        
+        y_train_pred = res["y_train_pred"]
+        y_test_pred = res["y_test_pred"]
+        
+        # Metrics
+        train_accuracy = accuracy_score(y_train, y_train_pred)
+        test_accuracy = accuracy_score(y_test, y_test_pred)
+        
+        train_recall = recall_score(y_train, y_train_pred)
+        test_recall = recall_score(y_test, y_test_pred)
+        
+        train_precision = precision_score(y_train, y_train_pred)
+        test_precision = precision_score(y_test, y_test_pred)
+        
+        train_f1 = f1_score(y_train, y_train_pred)
+        test_f1 = f1_score(y_test, y_test_pred)
+        
+        # AUC (safe handling)
+        if res["y_train_proba"] is not None:
+            train_auc = roc_auc_score(y_train, res["y_train_proba"])
+            test_auc = roc_auc_score(y_test, res["y_test_proba"])
+        else:
+            train_auc = np.nan
+            test_auc = np.nan
+        
+        # Overfitting detection
+        diff = train_accuracy - test_accuracy
+        diff_percentage = diff * 100
+        is_overfitting = diff_percentage > overfit_threshold
+        
+        rows.append({
+            "model_name": res["model_name"],
+            "runtime": round(res["runtime"], 3),
+            "train_accuracy": round(train_accuracy, 4),
+            "test_accuracy": round(test_accuracy, 4),
+            "train_recall": round(train_recall, 4),
+            "test_recall": round(test_recall, 4),
+            "train_precision": round(train_precision, 4),
+            "test_precision": round(test_precision, 4),
+            "train_f1_score": round(train_f1, 4),
+            "test_f1_score": round(test_f1, 4),
+            "train_auc": round(train_auc, 4),
+            "test_auc": round(test_auc, 4),
+            "diff_percentage": round(diff_percentage, 2),
+            "diff": round(diff, 4),
+            "is_overfitting": is_overfitting
+        })
+
+    df = pd.DataFrame(rows)
+    
+    # Define best model (highest test F1, fallback to AUC)
+    best_idx = (
+        df["test_f1_score"]
+        .fillna(0)
+        .idxmax()
+    )
+    
+    df["is_best_model"] = False
+    df.loc[best_idx, "is_best_model"] = True
+    
+    return df
+
+
+model_result=modelling(classifiers,X_train,y_train,X_test,y_test)
+result=process_eval(model_result)
