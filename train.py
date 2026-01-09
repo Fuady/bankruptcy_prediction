@@ -16,6 +16,8 @@ from lightgbm import LGBMClassifier
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.impute import SimpleImputer
+from sklearn.model_selection import GridSearchCV
+from sklearn.pipeline import Pipeline
 
 
 # =========================
@@ -192,71 +194,84 @@ def process_eval(model_results, overfit_threshold=10):
     return df
 
 
-model_result=modelling(classifiers,X_train,y_train,X_test,y_test)
-result=process_eval(model_result)
+# model_result=modelling(classifiers,X_train,y_train,X_test,y_test)
+# result=process_eval(model_result)
 
-from sklearn.model_selection import GridSearchCV
-from sklearn.pipeline import Pipeline
 
-def get_param_grid(model_name):
-    grids = {
-        "LogisticRegression": {
-            "model__C": [0.01, 0.1, 1, 10],
-            "model__solver": ["liblinear"]
-        },
-        "RandomForest": {
-            "model__n_estimators": [100, 300],
-            "model__max_depth": [None, 10, 20],
-            "model__min_samples_split": [2, 5]
-        },
-        "XGBoost": {
-            "model__n_estimators": [100, 300],
-            "model__max_depth": [3, 6],
-            "model__learning_rate": [0.01, 0.1]
-        },
-        "LightGBM": {
-            "model__n_estimators": [100, 300],
-            "model__num_leaves": [31, 63],
-            "model__learning_rate": [0.01, 0.1]
-        }
-    }
-    return grids.get(model_name, {})
+# def get_param_grid(model_name):
+#     grids = {
+#         "LogisticRegression": {
+#             "model__C": [0.01, 0.1, 1, 10],
+#             "model__solver": ["liblinear"]
+#         },
+#         "RandomForest": {
+#             "model__n_estimators": [100, 300],
+#             "model__max_depth": [None, 10, 20],
+#             "model__min_samples_split": [2, 5]
+#         },
+#         "XGBoost": {
+#             "model__n_estimators": [100, 300],
+#             "model__max_depth": [3, 6],
+#             "model__learning_rate": [0.01, 0.1]
+#         },
+#         "LightGBM": {
+#             "model__n_estimators": [100, 300],
+#             "model__num_leaves": [31, 63],
+#             "model__learning_rate": [0.01, 0.1]
+#         }
+#     }
+#     return grids.get(model_name, {})
 
-def tune_best_model(
-    best_model_name,
-    classifiers,
-    X_train,
-    y_train,
-    scoring="f1"
-):
-    # Get model
-    model = dict(classifiers)[best_model_name]
+# def tune_best_model(
+#     best_model_name,
+#     classifiers,
+#     X_train,
+#     y_train,
+#     scoring="f1"
+# ):
+#     # Get model
+#     model = dict(classifiers)[best_model_name]
     
-    pipe = Pipeline([
-        ("model", model)
-    ])
+#     pipe = Pipeline([
+#         ("model", model)
+#     ])
     
-    param_grid = get_param_grid(best_model_name)
+#     param_grid = get_param_grid(best_model_name)
     
-    grid = GridSearchCV(
-        estimator=pipe,
-        param_grid=param_grid,
-        scoring=scoring,
-        cv=10,
-        n_jobs=-1,
-        verbose=1
-    )
+#     grid = GridSearchCV(
+#         estimator=pipe,
+#         param_grid=param_grid,
+#         scoring=scoring,
+#         cv=10,
+#         n_jobs=-1,
+#         verbose=1
+#     )
     
-    grid.fit(X_train, y_train)
+#     grid.fit(X_train, y_train)
     
-    return grid.best_estimator_, grid.best_params_, grid.best_score_
+#     return grid.best_estimator_, grid.best_params_, grid.best_score_
 
-best_model_name = result.loc[result["is_best_model"], "model_name"].values[0]
+# best_model_name = result.loc[result["is_best_model"], "model_name"].values[0]
 
-best_estimator, best_params, best_cv_score = tune_best_model(
-    best_model_name,
-    classifiers,
-    X_train,
-    y_train
+# best_estimator, best_params, best_cv_score = tune_best_model(
+#     best_model_name,
+#     classifiers,
+#     X_train,
+#     y_train
+# )
+
+# =========================
+# 4. Model (Best Model)
+# =========================
+model = LGBMClassifier(
+    objective="binary",
+    learning_rate=0.01,
+    n_estimators=100,
+    num_leaves=31,
+    random_state=42
 )
+
+pipeline = Pipeline(steps=[
+    ("model", model)
+])
 
