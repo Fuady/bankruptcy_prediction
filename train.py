@@ -302,3 +302,11 @@ print("F1_Score:", f1_score(y_test, y_test_pred))
 
 print("\nClassification Report (Test)")
 print(classification_report(y_test, y_test_pred))
+
+# =========================
+# 7. Save model
+# =========================
+with open(MODEL_PATH, "wb") as f:
+    pickle.dump(pipeline, f)
+
+print(f"\nModel saved to: {MODEL_PATH}")
