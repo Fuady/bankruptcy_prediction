@@ -23,7 +23,7 @@ from sklearn.pipeline import Pipeline
 # =========================
 # 1. Load data
 # =========================
-MODEL_PATH = "models/fraud_model.pkl"
+MODEL_PATH = "models/bankruptcy_model.pkl"
 
 year_1 = arff.loadarff("data/1year.arff")
 df_year_1 = pd.DataFrame(year_1[0])
