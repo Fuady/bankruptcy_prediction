@@ -275,3 +275,30 @@ pipeline = Pipeline(steps=[
     ("model", model)
 ])
 
+# =========================
+# 5. Train model
+# =========================
+print("Training final model...")
+pipeline.fit(X_train, y_train)
+
+# =========================
+# 6. Evaluation
+# =========================
+y_train_pred = pipeline.predict(X_train)
+y_test_pred = pipeline.predict(X_test)
+
+y_train_proba = pipeline.predict_proba(X_train)[:, 1]
+y_test_proba = pipeline.predict_proba(X_test)[:, 1]
+
+print("\nTraining Performance")
+print("Accuracy:", accuracy_score(y_train, y_train_pred))
+print("AUC:", roc_auc_score(y_train, y_train_proba))
+print("F1_Score:", f1_score(y_train, y_train_pred))
+
+print("\nTest Performance")
+print("Accuracy:", accuracy_score(y_test, y_test_pred))
+print("AUC:", roc_auc_score(y_test, y_test_proba))
+print("F1_Score:", f1_score(y_test, y_test_pred))
+
+print("\nClassification Report (Test)")
+print(classification_report(y_test, y_test_pred))
