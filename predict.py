@@ -58,7 +58,7 @@ app = Flask(__name__)
 def health_check():
     return jsonify({
         "status": "ok",
-        "message": "Insurance Fraud Detection API is running"
+        "message": "Bankruptcy Prediction API is running"
     })
 
 @app.route("/predict", methods=["POST"])
@@ -70,8 +70,8 @@ def predict():
     fraud = fraud_prob >= 0.5
 
     results = {
-            'Fraud Probability': float(fraud_prob),
-            'Fraud': bool(fraud)
+            'Bankruptcy Probability': float(fraud_prob),
+            'Bankruptcy': bool(fraud)
     }
     return jsonify(results)
 
