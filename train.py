@@ -102,10 +102,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
 # =========================
 
 classifiers = [
-    ['CatBoostClassifier',CatBoostClassifier(silent=True)],
     ['LogisticRegression',LogisticRegression(class_weight='balanced',random_state=1)],
     ['DecisionTree',DecisionTreeClassifier(class_weight='balanced',random_state=1)],
-    ['LightGBM',LGBMClassifier(class_weight='balanced',metric='binary_logloss')],
     ['SVC', SVC()],
     ['KNN', KNeighborsClassifier(n_neighbors = 30)],
     ['GradientBoosting', GradientBoostingClassifier()],
